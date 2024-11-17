@@ -4,10 +4,9 @@ Simple implementation of secure phishing email detectin with fully homomorphic e
 
 ## Setup
 
-> docker build -t concrete-ml-notebook-python .    
-> docker run -p 8888:8888 concrete-ml-notebook-python
+> docker compose up --build -d
 
-Building image could take some time (10~ min)
+Building image could take some time.
 
 ## Usage
 

@@ -17,7 +17,7 @@ RUN apt-get update && apt-get install -y \
 RUN pip install --upgrade pip
 
 # Install Concrete-ML and dependencies
-RUN pip install concrete-ml pandas scikit-learn jupyter
+RUN pip install concrete-ml pandas scikit-learn jupyter matplotlib seaborn
 
 # Create a working directory
 WORKDIR /app
