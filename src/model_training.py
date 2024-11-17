@@ -88,31 +88,16 @@ class ModelTrainer:
         # Transform and scale the sample text
         sample_vector = data_processor.vectorizer.transform([sample_text]).toarray()
         sample_vector_scaled = data_processor.scaler.transform(sample_vector)
-        sample_vector_quantized = (sample_vector_scaled * data_processor.scale_factor).astype('float32')
+        #sample_vector_quantized = (sample_vector_scaled * data_processor.scale_factor).astype('float32')
 
-        # Measure encryption time
-        start_time = time.time()
         encrypted_input = self.client.quantize_encrypt_serialize(sample_vector_scaled)
-        encryption_time = time.time() - start_time
 
-        # Measure inference time
-        start_time = time.time()
         serialized_evaluation_keys = self.client.get_serialized_evaluation_keys()
         encrypted_result = self.server.run(encrypted_input, serialized_evaluation_keys)
-        inference_time = time.time() - start_time
 
-        # Measure decryption time
-        start_time = time.time()
         result = self.client.deserialize_decrypt_dequantize(encrypted_result)
-        decryption_time = time.time() - start_time
 
         # Convert probabilities to label
         predicted_label = int(result.argmax())
 
-        performance = {
-            'encryption_time': encryption_time,
-            'inference_time': inference_time,
-            'decryption_time': decryption_time
-        }
-
-        return predicted_label, performance
+        return predicted_label

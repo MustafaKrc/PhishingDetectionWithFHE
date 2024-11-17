@@ -27,10 +27,11 @@ class Evaluator:
         return y_pred, prediction_time
 
     def measure_fhe_prediction_performance(self, model_trainer, X_test_text, y_test, data_processor, sample_ratio=0.1):
-        encryption_times = []
-        inference_times = []
-        decryption_times = []
-
+        """
+        Measure the performance of the FHE model on a subset of the test data.
+        This method is reimplementation of the `fhe_predict` method in the `ModelTrainer` class.
+        It includes sample subsetting for input, time measurements for encryption, inference, and decryption.
+        """
         # Sample a subset of indices for faster evaluation
         random.seed(42)
         subset_indices = random.sample(range(len(X_test_text)), int(len(X_test_text) * sample_ratio))
