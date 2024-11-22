@@ -29,14 +29,15 @@ class ModelTrainer:
             return RandomForestClassifier(n_bits=self.n_bits)
         elif model_type == 'mlp':
             return NeuralNetClassifier(
-                module__n_layers=2,  # Number of hidden layers
+                module__activation_function='nn.ReLU', # nn.Relu gives performance boost for inference
+                module__n_layers=7,  # Increase the number of hidden layers
                 module__n_w_bits=self.n_bits,  # Weight quantization bits
                 module__n_a_bits=self.n_bits,  # Activation quantization bits
                 module__n_accum_bits=16,  # Accumulation bits
-                max_epochs=50,
-                batch_size=32,
-                lr=0.01,
-                #verbose=1
+                max_epochs=10,  # Increase the number of epochs
+                batch_size=64,  # Adjust batch size
+                lr=0.01,  # Reduce learning rate for better convergence
+                verbose=0,  # Suppress verbose output
             )
         elif model_type == 'knn':
             return KNeighborsClassifier(n_bits=self.n_bits, n_neighbors=5)
