@@ -7,6 +7,7 @@ from concrete.ml.deployment import FHEModelClient, FHEModelServer, FHEModelDev
 import time
 import os
 import shutil
+import torch.nn as nn
 
 class ModelTrainer:
     def __init__(self, model_type: str = 'logistic_regression', n_bits: int = 7):
@@ -29,7 +30,7 @@ class ModelTrainer:
             return RandomForestClassifier(n_bits=self.n_bits)
         elif model_type == 'mlp':
             return NeuralNetClassifier(
-                module__activation_function='nn.ReLU', # nn.Relu gives performance boost for inference
+                module__activation_function=nn.ReLU, # nn.Relu gives performance boost for inference
                 module__n_layers=7,  # Increase the number of hidden layers
                 module__n_w_bits=self.n_bits,  # Weight quantization bits
                 module__n_a_bits=self.n_bits,  # Activation quantization bits
